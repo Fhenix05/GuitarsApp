@@ -11,6 +11,7 @@ let carrito = []
 
 const divContainer = document.querySelector('main div') 
 const carritoContainer = document.querySelector('#carrito')
+const btnVai = document.querySelector('#vai')
 
 const createCard = (guitar) => {
     const div = document.createElement('div')
@@ -107,6 +108,7 @@ const buttonClicked = (e) => {
             // Sí si, Incrementa cantidad
             carrito[idCarrito].cantidad++
         }
+        setLocalStorage()
         createCart(carrito)
     }
 }
@@ -137,13 +139,32 @@ const carritoClicked = (e) => {
     }
 }
 
+const getLocalStorage = () => {
+    const carritoStorage = localStorage.getItem('carrito')
+    if(carritoStorage){
+        carrito = JSON.parse(carritoStorage)
+    } else {
+        carrito = []
+    }
+}
+
+const setLocalStorage = () => {
+    localStorage.setItem('carrito', JSON.stringify(carrito))
+}
+
 const container = document.querySelector('main div')
 
 db.forEach((guitar) => { 
     console.log(guitar.nombre) 
     container.appendChild(createCard(guitar))
 })
+getLocalStorage()
 createCart(carrito)
 
-container.addEventListener('click', buttonClicked)
-carritoContainer.addEventListener('click', carritoClicked)
+container
+    .addEventListener('click', buttonClicked)
+carritoContainer
+    .addEventListener('click', carritoClicked)
+btnVai
+    .addEventListener('click', buttonClicked)
+    
